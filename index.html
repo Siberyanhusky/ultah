@@ -35,7 +35,6 @@
       min-height: 100vh;
     }
 
-    /* Full-page background */
     body::before {
       content: "";
       position: fixed;
@@ -359,15 +358,6 @@
       line-height: 1.7;
     }
 
-    .music-fallback {
-      position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 60;
-      display: none;
-    }
-
     .modal {
       position: fixed;
       inset: 0;
@@ -490,10 +480,9 @@
 <body>
   <div class="floating-layer" id="floatingLayer"></div>
 
-  <audio id="bgMusic" autoplay loop muted playsinline>
+  <audio id="bgMusic" loop preload="auto">
     <source src="musik.mp3" type="audio/mpeg">
   </audio>
-  <button class="btn btn-primary music-fallback" id="musicFallback">Tap to play music</button>
 
   <main class="page">
     <section class="hero" id="hero">
@@ -504,7 +493,6 @@
         <p class="subtitle">Hari ini spesial, karena dunia merayakan kamu — sosok yang hangat, manis, dan berharga.</p>
         <div class="btn-row">
           <button class="btn btn-primary" id="startBtn">Start</button>
-          <button class="btn btn-secondary" id="letterBtnTop">Buka Surat</button>
         </div>
       </div>
     </section>
@@ -605,10 +593,8 @@ Happy Birthday, Gema 🤍</div>
 
   <script>
     const bgMusic = document.getElementById('bgMusic');
-    const musicFallback = document.getElementById('musicFallback');
     const birthdayVideo = document.getElementById('birthdayVideo');
     const startBtn = document.getElementById('startBtn');
-    const letterBtnTop = document.getElementById('letterBtnTop');
     const openLetterBtn = document.getElementById('openLetterBtn');
     const letterModal = document.getElementById('letterModal');
     const closeLetterBtn = document.getElementById('closeLetterBtn');
@@ -616,9 +602,6 @@ Happy Birthday, Gema 🤍</div>
     const floatingLayer = document.getElementById('floatingLayer');
     const fadeSections = document.querySelectorAll('.fade-up');
     const introSection = document.getElementById('introSection');
-    const gallerySection = document.getElementById('gallerySection');
-    const videoSection = document.getElementById('videoSection');
-    const gameSection = document.getElementById('gameSection');
     const gameBoard = document.getElementById('gameBoard');
     const starsLayer = document.getElementById('starsLayer');
     const gameCounter = document.getElementById('gameCounter');
@@ -626,66 +609,49 @@ Happy Birthday, Gema 🤍</div>
 
     const TOTAL_STARS = 5;
     let collected = 0;
+    let musicStarted = false;
 
-    function tryPlayMusic() {
-      bgMusic.volume = 0.55;
-      const p = bgMusic.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(() => {
-          musicFallback.style.display = 'block';
-        });
-      }
+    // Play music — called on first user interaction
+    function startMusic() {
+      if (musicStarted) return;
+      musicStarted = true;
+      bgMusic.volume = 0;
+      bgMusic.play().then(() => {
+        let v = 0;
+        const fade = setInterval(() => {
+          v = Math.min(v + 0.05, 0.55);
+          bgMusic.volume = v;
+          if (v >= 0.55) clearInterval(fade);
+        }, 100);
+      }).catch(() => {});
     }
 
-    function tryPlayVideo() {
+    // Start button: scroll + play music
+    startBtn.addEventListener('click', () => {
+      startMusic();
+      introSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Fallback: any tap/click anywhere starts music
+    function onFirstInteraction() {
+      startMusic();
+      document.removeEventListener('click', onFirstInteraction);
+      document.removeEventListener('touchstart', onFirstInteraction);
+    }
+    document.addEventListener('click', onFirstInteraction);
+    document.addEventListener('touchstart', onFirstInteraction);
+
+    // Video autoplay (muted = allowed)
+    window.addEventListener('load', () => {
       birthdayVideo.muted = true;
       birthdayVideo.play().catch(() => {});
-    }
-
-    window.addEventListener('load', () => {
-      tryPlayMusic();
-      tryPlayVideo();
       spawnHearts();
       spawnStars();
     });
-   
-  function enableAudio() {
-  bgMusic.muted = false;
-  bgMusic.volume = 0;
 
-  let v = 0;
-  let fade = setInterval(() => {
-    v += 0.05;
-    bgMusic.volume = v;
-    if (v >= 0.5) clearInterval(fade);
-  }, 100);
-
-  bgMusic.play().catch(()=>{});
-
-  // hapus event setelah jalan sekali
-  document.removeEventListener('click', enableAudio);
-  document.removeEventListener('touchstart', enableAudio);
-}
-
-// trigger dari semua interaksi
-document.addEventListener('click', enableAudio);
-document.addEventListener('touchstart', enableAudio);
-
-    musicFallback.addEventListener('click', async () => {
-      try {
-        await bgMusic.play();
-        musicFallback.style.display = 'none';
-      } catch (e) {}
-    });
-
-    startBtn.addEventListener('click', () => {
-      introSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    letterBtnTop.addEventListener('click', openLetter);
     openLetterBtn.addEventListener('click', openLetter);
     closeLetterBtn.addEventListener('click', closeLetter);
     closeLetterBtn2.addEventListener('click', closeLetter);
-
     letterModal.addEventListener('click', (e) => {
       if (e.target === letterModal) closeLetter();
     });
