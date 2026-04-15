@@ -610,20 +610,30 @@ Happy Birthday, Gema 🤍</div>
     const TOTAL_STARS = 5;
     let collected = 0;
     let musicStarted = false;
-
+    let musicStarting = false;
+    
     // Play music — called on first user interaction
     function startMusic() {
-      if (musicStarted) return;
-      musicStarted = true;
+      if (musicStarted || musicStarting) return;
+
+      musicStarting = true;
       bgMusic.volume = 0;
+      bgMusic.load();
+      
       bgMusic.play().then(() => {
+        musicStarted = true;
         let v = 0;
         const fade = setInterval(() => {
           v = Math.min(v + 0.05, 0.55);
           bgMusic.volume = v;
           if (v >= 0.55) clearInterval(fade);
         }, 100);
-      }).catch(() => {});
+      }).catch(() => {
+        // If blocked by browser policy, allow the next interaction to retry play().
+        musicStarted = false;
+      }).finally(() => {
+        musicStarting = false;
+      });
     }
 
     // Start button: scroll + play music
@@ -635,8 +645,10 @@ Happy Birthday, Gema 🤍</div>
     // Fallback: any tap/click anywhere starts music
     function onFirstInteraction() {
       startMusic();
-      document.removeEventListener('click', onFirstInteraction);
-      document.removeEventListener('touchstart', onFirstInteraction);
+      if (musicStarted) {
+        document.removeEventListener('click', onFirstInteraction);
+        document.removeEventListener('touchstart', onFirstInteraction);
+      }
     }
     document.addEventListener('click', onFirstInteraction);
     document.addEventListener('touchstart', onFirstInteraction);
