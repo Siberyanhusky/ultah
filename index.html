@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Gema Maulidia 🤍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --blush: #f2d4cc;
+    --peach: #e8b4a0;
+    --rose: #c9847a;
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+    --beige: #ede0d0;
+    --text-dark: #4a3728;
+    --text-mid: #7a5c50;
+    --text-soft: #b08878;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ─── AUDIO ─── */
+  #music-btn {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201,169,110,0.4);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100%{box-shadow:0 4px 20px rgba(201,169,110,.4)}
+    50%{box-shadow:0 4px 32px rgba(201,169,110,.7)}
+  }
+
+  /* ─── FLOATING HEARTS ─── */
+  .heart-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 18px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0.6) rotate(-10deg); }
+    10%  { opacity: 0.7; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-110vh) scale(1.1) rotate(10deg); }
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    overflow: hidden;
+  }
+  #hero .bg {
+    position: absolute;
+    inset: 0;
+    background: url('background.png') center/cover no-repeat;
+    z-index: 0;
+  }
+  #hero .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg,
+      rgba(253,246,238,.72) 0%,
+      rgba(242,212,204,.60) 50%,
+      rgba(232,180,160,.55) 100%);
+    z-index: 1;
+  }
+  #hero .content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+  .hero-tag {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    letter-spacing: 4px;
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp .8s .3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 8vw, 4.8rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--text-dark);
+    opacity: 0;
+    animation: fadeUp .9s .6s forwards;
+  }
+  .hero-title span { font-style: italic; color: var(--rose); }
+  .hero-sub {
+    font-weight: 300;
+    font-size: clamp(14px, 3.5vw, 17px);
+    color: var(--text-mid);
+    margin-top: 18px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp .9s .9s forwards;
+  }
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 28px auto;
+    opacity: 0;
+    animation: fadeUp .8s 1.1s forwards;
+  }
+  .btn-start {
+    opacity: 0;
+    animation: fadeUp .8s 1.3s forwards;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--text-dark);
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all .4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-start::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity .4s;
+    border-radius: inherit;
+  }
+  .btn-start:hover::before, .btn-start:active::before { opacity: 1; }
+  .btn-start:hover, .btn-start:active { color: #fff; border-color: var(--gold); }
+  .btn-start span { position: relative; z-index: 1; }
+
+  /* ─── SECTION COMMON ─── */
+  section {
+    padding: 80px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-weight: 200;
+    letter-spacing: 4px;
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 300;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+  }
+  .fade-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── GALLERY ─── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .gallery-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(74,55,40,.12);
+    position: relative;
+    cursor: pointer;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+  }
+  .gallery-card:first-child {
+    grid-column: 1 / -1;
+    border-radius: 24px;
+  }
+  .gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .6s ease;
+  }
+  .gallery-card:first-child img { height: 280px; }
+  .gallery-card:not(:first-child) img { height: 180px; }
+  .gallery-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 16px 48px rgba(74,55,40,.18); }
+  .gallery-card:hover img { transform: scale(1.06); }
+  .gallery-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(201,132,122,.25), transparent 60%);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .gallery-card:hover::after { opacity: 1; }
+
+  /* ─── VIDEO ─── */
+  #video-section { text-align: center; }
+  .video-wrap {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(74,55,40,.15);
+    position: relative;
+  }
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    border-radius: 24px;
+  }
+
+  /* ─── PESAN ─── */
+  #pesan { text-align: center; }
+  .pesan-box {
+    background: linear-gradient(135deg, rgba(253,246,238,.9), rgba(237,224,208,.7));
+    border: 1px solid var(--gold-light);
+    border-radius: 28px;
+    padding: 48px 32px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(201,169,110,.1);
+  }
+  .pesan-box::before {
+    content: '✦';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: var(--gold);
+    background: var(--cream);
+    padding: 0 10px;
+  }
+  .pesan-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--text-mid);
+    font-style: italic;
+  }
+
+  /* ─── GAME ─── */
+  #game-section { text-align: center; }
+  #game-area {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    background: linear-gradient(135deg, rgba(242,212,204,.3), rgba(237,224,208,.4));
+    border: 1px solid var(--gold-light);
+    border-radius: 28px;
+    overflow: hidden;
+    cursor: pointer;
+    touch-action: none;
+  }
+  #game-counter {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--text-dark);
+    z-index: 10;
+    letter-spacing: 2px;
+  }
+  .star-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    transition: transform .2s;
+    filter: drop-shadow(0 2px 8px rgba(201,169,110,.5));
+    animation: starFloat 3s ease-in-out infinite;
+    z-index: 5;
+  }
+  .star-btn:hover { transform: scale(1.3) rotate(20deg); }
+  @keyframes starFloat {
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-8px); }
+  }
+  .sparkle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 18px;
+    animation: sparkleAnim .7s forwards;
+    z-index: 20;
+  }
+  @keyframes sparkleAnim {
+    0%  { opacity: 1; transform: scale(0.5) translateY(0); }
+    100%{ opacity: 0; transform: scale(1.5) translateY(-40px); }
+  }
+  #game-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 16px;
+  }
+  #game-success.show { display: flex; }
+  .success-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-dark);
+    animation: fadeUp .6s forwards;
+  }
+  .btn-open-letter {
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201,169,110,.4);
+    transition: transform .3s, box-shadow .3s;
+    animation: fadeUp .6s .3s both;
+  }
+  .btn-open-letter:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(201,169,110,.5); }
+  .game-hint {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-soft);
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  /* ─── MODAL SURAT ─── */
+  #modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(74,55,40,.5);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  #modal-overlay.open { display: flex; animation: fadeIn .4s forwards; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .letter-card {
+    background: linear-gradient(160deg, #fffaf5, #fdf0e8);
+    border-radius: 32px;
+    padding: 48px 36px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(74,55,40,.25);
+    border: 1px solid var(--gold-light);
+    animation: scaleIn .5s cubic-bezier(.34,1.56,.64,1) forwards;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-light) transparent;
+  }
+  @keyframes scaleIn { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+  .letter-deco {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 8px;
+    letter-spacing: 8px;
+  }
+  .letter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .letter-divider {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 28px;
+  }
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.5vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--text-mid);
+    font-style: italic;
+    white-space: pre-line;
+  }
+  .btn-close-letter {
+    display: block;
+    margin: 32px auto 0;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--text-dark);
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .btn-close-letter:hover { background: var(--gold); color: #fff; }
+  .letter-close-x {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--text-soft);
+    cursor: pointer;
+    line-height: 1;
+    transition: color .3s;
+  }
+  .letter-close-x:hover { color: var(--rose); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-soft);
+    font-weight: 200;
+  }
+  footer .gold { color: var(--gold); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Audio -->
+<audio id="bg-music" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+<button id="music-btn">♪ Tap to play music</button>
+
+<!-- Floating Hearts -->
+<div class="heart-container" id="hearts"></div>
+
+<!-- ═══ HERO ═══ -->
+<div id="hero">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="hero-tag">✦ &nbsp; A special day &nbsp; ✦</p>
+    <h1 class="hero-title">Happy Birthday<br><span>Gema Maulidia</span></h1>
+    <p class="hero-sub">Hari ini spesial, karena dunia merayakan kamu</p>
+    <div class="hero-divider"></div>
+    <button class="btn-start" onclick="scrollToMain()"><span>✦ &nbsp; Start &nbsp; ✦</span></button>
+  </div>
+</div>
+
+<!-- ═══ GALERI ═══ -->
+<section id="gallery" class="fade-section">
+  <p class="section-label">✦ &nbsp; Memories &nbsp; ✦</p>
+  <h2 class="section-title">Momen yang Berharga</h2>
+  <div class="gallery-grid">
+    <div class="gallery-card">
+      <img src="ft1.jpg" alt="Foto 1">
+    </div>
+    <div class="gallery-card">
+      <img src="ft2.png" alt="Foto 2">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDEO ═══ -->
+<section id="video-section" class="fade-section">
+  <p class="section-label">✦ &nbsp; A Moment &nbsp; ✦</p>
+  <h2 class="section-title">Sebuah Kenangan</h2>
+  <div class="video-wrap">
+    <video controls preload="metadata" playsinline>
+      <source src="vid1.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<!-- ═══ PESAN ═══ -->
+<section id="pesan" class="fade-section">
+  <p class="section-label">✦ &nbsp; Untuk Kamu &nbsp; ✦</p>
+  <h2 class="section-title">Sepatah Kata</h2>
+  <div class="pesan-box">
+    <p class="pesan-text">
+      Hari ini bukan sekadar hari biasa,<br>
+      ini adalah hari di mana seseorang yang spesial lahir ke dunia.<br><br>
+      Semoga semua hal baik selalu menemukan jalan menuju kamu.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ GAME ═══ -->
+<section id="game-section" class="fade-section">
+  <p class="section-label">✦ &nbsp; Mini Game &nbsp; ✦</p>
+  <h2 class="section-title">Tap the Stars</h2>
+  <div id="game-area">
+    <div id="game-counter">0 / 5</div>
+    <div id="game-stars"></div>
+    <div id="game-success">
+      <div class="success-text">🌟 &nbsp; Semua bintang terkumpul! &nbsp; 🌟</div>
+      <button class="btn-open-letter" onclick="openLetter()">Buka Surat Untukmu ✉️</button>
+    </div>
+  </div>
+  <p class="game-hint">Klik semua bintang untuk membuka surat spesial 🌟</p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p>Made with <span class="gold">✦</span> for Gema Maulidia</p>
+  <p style="margin-top:8px">April 2026</p>
+</footer>
+
+<!-- ═══ MODAL SURAT ═══ -->
+<div id="modal-overlay">
+  <div class="letter-card">
+    <button class="letter-close-x" onclick="closeLetter()">✕</button>
+    <div class="letter-deco">✉️</div>
+    <h3 class="letter-title">Surat Untukmu</h3>
+    <div class="letter-divider"></div>
+    <p class="letter-body">Hai Gema,
+
+Di hari spesial ini, aku cuma ingin kamu tahu satu hal sederhana…
+
+bahwa kehadiran kamu itu berarti. Lebih dari yang mungkin kamu sadari.
+
+Selamat ulang tahun ya, Gema Maulidia.
+
+Semoga setiap langkah yang kamu ambil selalu dipenuhi hal-hal baik, dipeluk oleh kebahagiaan, dan dikelilingi oleh orang-orang yang tulus.
+
+Semoga semua yang kamu doakan, perlahan menemukan jalannya untuk menjadi nyata.
+
+Dan semoga di setiap hari yang kamu jalani, kamu selalu punya alasan untuk tersenyum.
+
+Dunia terasa sedikit lebih hangat karena ada kamu di dalamnya.
+
+Jadi hari ini, biarkan semuanya terasa lebih spesial… karena kamu memang se-spesial itu.
+
+Happy Birthday, Gema 🤍</p>
+    <button class="btn-close-letter" onclick="closeLetter()">Tutup Surat</button>
+  </div>
+</div>
+
+<script>
+  // ─── MUSIC ───
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-btn');
+
+  function tryPlay() {
+    const p = music.play();
+    if (p) {
+      p.catch(() => { musicBtn.style.display = 'block'; });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    music.volume = 0.55;
+    tryPlay();
+  });
+
+  musicBtn.addEventListener('click', () => {
+    music.play();
+    musicBtn.style.display = 'none';
+  });
+
+  // ─── SCROLL ───
+  function scrollToMain() {
+    document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ─── FLOATING HEARTS ───
+  const heartsContainer = document.getElementById('hearts');
+  const heartEmojis = ['🤍','💕','✨','🌸','💫','🌷'];
+
+  function createHeart() {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    const dur = 8 + Math.random() * 8;
+    h.style.animationDuration = dur + 's';
+    h.style.animationDelay = Math.random() * 4 + 's';
+    h.style.fontSize = (14 + Math.random() * 12) + 'px';
+    heartsContainer.appendChild(h);
+    setTimeout(() => h.remove(), (dur + 4) * 1000);
+  }
+
+  setInterval(createHeart, 1200);
+  for (let i = 0; i < 5; i++) setTimeout(createHeart, i * 400);
+
+  // ─── FADE-IN SECTIONS ───
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-section').forEach(el => obs.observe(el));
+
+  // ─── GAME ───
+  let starCount = 0;
+  const totalStars = 5;
+  const gameArea = document.getElementById('game-area');
+  const gameStars = document.getElementById('game-stars');
+  const gameCounter = document.getElementById('game-counter');
+  const gameSuccess = document.getElementById('game-success');
+
+  function getPos(max, margin) {
+    return margin + Math.random() * (max - margin * 2);
+  }
+
+  function spawnStars() {
+    gameStars.innerHTML = '';
+    starCount = 0;
+    gameCounter.textContent = `0 / ${totalStars}`;
+    gameSuccess.classList.remove('show');
+    gameStars.style.display = 'block';
+    gameCounter.style.display = 'block';
+
+    const areaW = gameArea.offsetWidth;
+    const areaH = gameArea.offsetHeight;
+
+    const positions = [];
+    for (let i = 0; i < totalStars; i++) {
+      let x, y, ok;
+      let tries = 0;
+      do {
+        x = getPos(areaW, 40);
+        y = getPos(areaH, 50);
+        ok = positions.every(p => Math.hypot(p.x - x, p.y - y) > 60);
+        tries++;
+      } while (!ok && tries < 50);
+      positions.push({x, y});
+
+      const btn = document.createElement('button');
+      btn.className = 'star-btn';
+      btn.textContent = '⭐';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+      btn.style.animationDelay = (Math.random() * 2) + 's';
+      btn.style.animationDuration = (2 + Math.random() * 2) + 's';
+      btn.addEventListener('click', (e) => clickStar(e, btn, x, y));
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        clickStar(e, btn, x, y);
+      }, { passive: false });
+      gameStars.appendChild(btn);
+    }
+  }
+
+  function clickStar(e, btn, x, y) {
+    btn.remove();
+    starCount++;
+    gameCounter.textContent = `${starCount} / ${totalStars}`;
+    spawnSparkle(x, y);
+    if (starCount >= totalStars) {
+      setTimeout(showSuccess, 400);
+    }
+  }
+
+  function spawnSparkle(x, y) {
+    const sparks = ['✨','💫','🌟','⭐'];
+    for (let i = 0; i < 3; i++) {
+      const sp = document.createElement('span');
+      sp.className = 'sparkle';
+      sp.textContent = sparks[Math.floor(Math.random() * sparks.length)];
+      sp.style.left = (x + (Math.random()-0.5)*40) + 'px';
+      sp.style.top = (y + (Math.random()-0.5)*30) + 'px';
+      gameArea.appendChild(sp);
+      setTimeout(() => sp.remove(), 800);
+    }
+  }
+
+  function showSuccess() {
+    gameCounter.style.display = 'none';
+    gameSuccess.classList.add('show');
+    // extra hearts burst
+    for (let i = 0; i < 6; i++) setTimeout(createHeart, i * 120);
+  }
+
+  // ─── MODAL ───
+  function openLetter() {
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLetter() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeLetter();
+  });
+
+  // Init game
+  spawnStars();
+  // Re-spawn if window resized
+  window.addEventListener('resize', () => {
+    if (starCount < totalStars) spawnStars();
+  });
+</script>
+</body>
+</html>
